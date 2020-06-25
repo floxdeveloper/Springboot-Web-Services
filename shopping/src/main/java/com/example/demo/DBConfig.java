@@ -43,7 +43,7 @@ public class DBConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(DRIVER);
-		dataSource.setUrl("jdbc:mysql://localhost:3306/webservice");
+		dataSource.setUrl(URL);
 		dataSource.setUsername(USERNAME);
 		dataSource.setPassword(PASSWORD);
 		return dataSource;
