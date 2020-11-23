@@ -12,14 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.spring.constants.ResponseCode;
 import com.spring.constants.WebConstants;
@@ -43,7 +36,7 @@ import com.spring.util.jwtUtil;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
 	private static Logger logger = Logger.getLogger(UserController.class.getName());
@@ -66,7 +59,7 @@ public class UserController {
 	@Autowired
 	private jwtUtil jwtutil;
 
-	@PostMapping("/signup")
+	@PostMapping("")
 	public ResponseEntity<serverResp> addUser(@Valid @RequestBody User user) {
 
 		serverResp resp = new serverResp();
@@ -115,7 +108,7 @@ public class UserController {
 		return new ResponseEntity<serverResp>(resp, HttpStatus.OK);
 	}
 
-	@PostMapping("/addAddress")
+	@PostMapping("/address")
 	public ResponseEntity<userResp> addAddress(@Valid @RequestBody Address address,
 			@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN) {
 		userResp resp = new userResp();
@@ -145,7 +138,7 @@ public class UserController {
 		return new ResponseEntity<userResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@PostMapping("/getAddress")
+	@GetMapping("/address")
 	public ResponseEntity<response> getAddress(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN) {
 
 		response resp = new response();
@@ -179,7 +172,7 @@ public class UserController {
 		return new ResponseEntity<response>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@PostMapping("/getProducts")
+	@GetMapping("/products")
 	public ResponseEntity<prodResp> getProducts(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
 			throws IOException {
 
@@ -202,7 +195,7 @@ public class UserController {
 		return new ResponseEntity<prodResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/addToCart")
+	@PostMapping("/cart")
 	public ResponseEntity<serverResp> addToCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
 			@RequestParam(WebConstants.PROD_ID) String productId) throws IOException {
 
@@ -237,7 +230,7 @@ public class UserController {
 		return new ResponseEntity<serverResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/viewCart")
+	@GetMapping("/cart")
 	public ResponseEntity<cartResp> viewCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
 			throws IOException {
 		logger.info("Inside View cart request method");
@@ -262,23 +255,23 @@ public class UserController {
 		return new ResponseEntity<cartResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/updateCart")
+	@PutMapping("/cart/{bufcartId}")
 	public ResponseEntity<cartResp> updateCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
-			@RequestParam(name = WebConstants.BUF_ID) String bufcartid,
+			@PathVariable(name = WebConstants.BUF_ID) String bufcartId,
 			@RequestParam(name = WebConstants.BUF_QUANTITY) String quantity) throws IOException {
 
 		cartResp resp = new cartResp();
 		if (!Validator.isStringEmpty(AUTH_TOKEN) && jwtutil.checkToken(AUTH_TOKEN) != null) {
 			try {
 				User loggedUser = jwtutil.checkToken(AUTH_TOKEN);
-				Bufcart selCart = cartRepo.findByBufcartIdAndEmail(Integer.parseInt(bufcartid), loggedUser.getEmail());
-				selCart.setQuantity(Integer.parseInt(quantity));
-				cartRepo.save(selCart);
-				List<Bufcart> bufcartlist = cartRepo.findByEmail(loggedUser.getEmail());
+				Bufcart userCart = cartRepo.findByBufcartIdAndEmail(Integer.parseInt(bufcartId), loggedUser.getEmail());
+				userCart.setQuantity(Integer.parseInt(quantity));
+				cartRepo.save(userCart);
+				List<Bufcart> bufcarts = cartRepo.findByEmail(loggedUser.getEmail());
 				resp.setStatus(ResponseCode.SUCCESS_CODE);
 				resp.setMessage(ResponseCode.UPD_CART_MESSAGE);
 				resp.setAUTH_TOKEN(AUTH_TOKEN);
-				resp.setOblist(bufcartlist);
+				resp.setOblist(bufcarts);
 			} catch (Exception e) {
 				resp.setStatus(ResponseCode.FAILURE_CODE);
 				resp.setMessage(e.getMessage());
@@ -291,7 +284,7 @@ public class UserController {
 		return new ResponseEntity<cartResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/delCart")
+	@DeleteMapping("/cart")
 	public ResponseEntity<cartResp> delCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
 			@RequestParam(name = WebConstants.BUF_ID) String bufcartid) throws IOException {
 
@@ -317,7 +310,7 @@ public class UserController {
 		return new ResponseEntity<cartResp>(resp, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/placeOrder")
+	@PostMapping("/order")
 	public ResponseEntity<serverResp> placeOrder(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
 			throws IOException {
 
