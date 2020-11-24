@@ -19,7 +19,7 @@ public class jwtUtil {
 	private final static String Key = "axWDVrgnYJil";
 	private final static String ISSUER = "ADMIN_SHOPPING";
 	private final static String SUBJECT = "USER_SHOPPING";
-	private final static String SES_EMAIL = "SESSION_EMAIL";
+	private final static String SES_USERNAME = "SESSION_USERNAME";
 	private final static String SES_PASS = "SESSION_PASS";
 	private final static String SES_TYPE = "SESSION_TYPE";
 
@@ -28,7 +28,7 @@ public class jwtUtil {
 
 	public String createToken(String session_username, String session_pass, String session_type) {
 		Map<String, Object> map = new HashMap<>();
-		map.put(SES_EMAIL, session_username);
+		map.put(SES_USERNAME, session_username);
 		map.put(SES_PASS, session_pass);
 		map.put(SES_TYPE, session_type);
 
@@ -41,7 +41,7 @@ public class jwtUtil {
 
 	public User checkToken(String token) {
 		Claims claim = Jwts.parser().setSigningKey(Key).parseClaimsJws(token).getBody();
-		User user = userRepo.findByEmailAndPassword(claim.get(SES_EMAIL).toString(),
+		User user = userRepo.findByUsernameAndPassword(claim.get(SES_USERNAME).toString(),
 				claim.get(SES_PASS).toString());
 		return user;
 	}
