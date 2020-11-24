@@ -10,7 +10,5 @@ import com.spring.model.User;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User findByEmailAndPassword(String email, String password);
-
     User findByUsernameAndPassword(String username, String password);
 }
