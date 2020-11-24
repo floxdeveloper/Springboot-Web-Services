@@ -77,10 +77,10 @@ public class UsersController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/{userId}/verify")
-    public ResponseEntity<serverResp> verifyUser(@Valid @RequestBody String password, @PathVariable String userId) {
+    @PostMapping("/{username}/verify")
+    public ResponseEntity<serverResp> verifyUser(@Valid @RequestBody String password, @PathVariable String username) {
 
-        User user = userRepo.findByUserId(userId);
+        User user = userRepo.findByUsername(username);
         String email = user.getEmail();
 
         User loggedUser = userRepo.findByEmailAndPassword(email, password);
@@ -97,10 +97,10 @@ public class UsersController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.OK);
     }
 
-    @PutMapping("/{userId}/address")
+    @PutMapping("/{username}/address")
     public ResponseEntity<userResp> addAddress(@Valid @RequestBody Address address,
                                                @RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
-                                               @PathVariable String userId) {
+                                               @PathVariable String username) {
         userResp resp = new userResp();
         if (Validator.isAddressEmpty(address)) {
             resp.setStatus(ResponseCode.BAD_REQUEST_CODE);
@@ -128,7 +128,7 @@ public class UsersController {
         return new ResponseEntity<userResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{userId}/address")
+    @GetMapping("/{username}/address")
     public ResponseEntity<response> getAddress(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN) {
 
         response resp = new response();
@@ -162,7 +162,7 @@ public class UsersController {
         return new ResponseEntity<response>(resp, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/{userId}/cart")
+    @PostMapping("/{username}/cart")
     public ResponseEntity<serverResp> addToCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
                                                 @RequestParam(WebConstants.PROD_ID) String productId) throws IOException {
 
@@ -197,7 +197,7 @@ public class UsersController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{userId}/cart")
+    @GetMapping("/{username}/cart")
     public ResponseEntity<cartResp> viewCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
             throws IOException {
         logger.info("Inside View cart request method");
@@ -222,7 +222,7 @@ public class UsersController {
         return new ResponseEntity<cartResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/{userId}/cart/{bufcartId}")
+    @PutMapping("/{username}/cart/{bufcartId}")
     public ResponseEntity<cartResp> updateCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
                                                @PathVariable(name = WebConstants.BUF_ID) String bufcartId,
                                                @RequestParam(name = WebConstants.BUF_QUANTITY) String quantity) throws IOException {
@@ -251,7 +251,7 @@ public class UsersController {
         return new ResponseEntity<cartResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/{userId}/cart")
+    @DeleteMapping("/{username}/cart")
     public ResponseEntity<cartResp> delCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
                                             @RequestParam(name = WebConstants.BUF_ID) String bufcartid) throws IOException {
 
