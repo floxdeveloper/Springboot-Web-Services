@@ -75,7 +75,7 @@ public class OrdersController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<viewOrdResp> viewOrders(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
             throws IOException {
 
