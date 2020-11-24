@@ -97,7 +97,7 @@ public class UsersController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/address")
+    @PutMapping("/{userId}/address")
     public ResponseEntity<userResp> addAddress(@Valid @RequestBody Address address,
                                                @RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
                                                @PathVariable String userId) {
