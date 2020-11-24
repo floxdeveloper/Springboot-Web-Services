@@ -88,6 +88,7 @@ public class UsersController {
             resp.setStatus(ResponseCode.SUCCESS_CODE);
             resp.setMessage(ResponseCode.SUCCESS_MESSAGE);
             resp.setAUTH_TOKEN(jwtToken);
+            resp.setObject(loggedUser.getUserType());
         } else {
             resp.setStatus(ResponseCode.FAILURE_CODE);
             resp.setMessage(ResponseCode.FAILURE_MESSAGE);
