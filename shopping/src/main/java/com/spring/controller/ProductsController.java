@@ -26,7 +26,7 @@ public class ProductsController {
     @Autowired
     private jwtUtil jwtutil;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<prodResp> getProducts(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
             throws IOException {
 
