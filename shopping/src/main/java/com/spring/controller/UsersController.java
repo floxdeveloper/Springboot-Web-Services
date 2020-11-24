@@ -80,13 +80,11 @@ public class UsersController {
     @PostMapping("/{username}/verify")
     public ResponseEntity<serverResp> verifyUser(@Valid @RequestBody String password, @PathVariable String username) {
 
-        User user = userRepo.findByUsername(username);
-        String email = user.getEmail();
+        User loggedUser = userRepo.findByUsernameAndPassword(username, password);
 
-        User loggedUser = userRepo.findByEmailAndPassword(email, password);
         serverResp resp = new serverResp();
         if (loggedUser != null) {
-            String jwtToken = jwtutil.createToken(email, password, WebConstants.USER_CUST_ROLE);
+            String jwtToken = jwtutil.createToken(username, password, WebConstants.USER_CUST_ROLE);
             resp.setStatus(ResponseCode.SUCCESS_CODE);
             resp.setMessage(ResponseCode.SUCCESS_MESSAGE);
             resp.setAUTH_TOKEN(jwtToken);
