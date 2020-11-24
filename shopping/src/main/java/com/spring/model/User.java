@@ -10,11 +10,13 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -8850740904859933967L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "userid")
 	private int userId;
 	private String email;
 	@Column(unique = true)
 	private String username;
 	private String password;
+	@Column(name = "usertype")
 	private String userType;
 
 	public int getUserId() {
