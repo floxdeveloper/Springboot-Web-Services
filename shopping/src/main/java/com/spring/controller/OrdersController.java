@@ -35,7 +35,7 @@ public class OrdersController {
     private jwtUtil jwtutil;
 
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<serverResp> placeOrder(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN)
             throws IOException {
 
