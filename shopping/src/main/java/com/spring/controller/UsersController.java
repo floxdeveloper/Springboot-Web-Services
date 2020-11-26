@@ -163,19 +163,19 @@ public class UsersController {
 
     @PostMapping("/{username}/cart")
     public ResponseEntity<serverResp> addToCart(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
-                                                @RequestParam(WebConstants.PROD_ID) String productId) throws IOException {
+                                                @RequestParam(WebConstants.PROD_ID) String productid) throws IOException {
 
         serverResp resp = new serverResp();
         if (!Validator.isStringEmpty(AUTH_TOKEN) && jwtutil.checkToken(AUTH_TOKEN) != null) {
             try {
                 User loggedUser = jwtutil.checkToken(AUTH_TOKEN);
-                Product cartItem = prodRepo.findByProductid(Integer.parseInt(productId));
+                Product cartItem = prodRepo.findByProductid(Integer.parseInt(productid));
 
                 Bufcart buf = new Bufcart();
                 buf.setEmail(loggedUser.getEmail());
                 buf.setQuantity(1);
                 buf.setPrice(cartItem.getPrice());
-                buf.setProductId(Integer.parseInt(productId));
+                buf.setProductId(Integer.parseInt(productid));
                 buf.setProductname(cartItem.getProductname());
                 Date date = new Date();
                 buf.setDateAdded(date);

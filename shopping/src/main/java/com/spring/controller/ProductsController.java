@@ -88,7 +88,7 @@ public class ProductsController {
     }
 
 
-    @PutMapping("/{productId}")
+    @PutMapping("/{productid}")
     public ResponseEntity<serverResp> updateProducts(
             @RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
             @RequestParam(name = WebConstants.PROD_FILE, required = false) MultipartFile prodImage,
@@ -96,7 +96,7 @@ public class ProductsController {
             @RequestParam(name = WebConstants.PROD_PRICE) String price,
             @RequestParam(name = WebConstants.PROD_NAME) String productname,
             @RequestParam(name = WebConstants.PROD_QUANITY) String quantity,
-            @PathVariable(name = WebConstants.PROD_ID) String productId) throws IOException {
+            @PathVariable(name = WebConstants.PROD_ID) String productid) throws IOException {
         serverResp resp = new serverResp();
         if (Validator.isStringEmpty(productname) || Validator.isStringEmpty(description)
                 || Validator.isStringEmpty(price) || Validator.isStringEmpty(quantity)) {
@@ -107,11 +107,11 @@ public class ProductsController {
                 Product prodOrg;
                 Product prod;
                 if (prodImage != null) {
-                    prod = new Product(Integer.parseInt(productId), description, productname, Double.parseDouble(price),
+                    prod = new Product(Integer.parseInt(productid), description, productname, Double.parseDouble(price),
                             Integer.parseInt(quantity), prodImage.getBytes());
                 } else {
-                    prodOrg = prodRepo.findByProductid(Integer.parseInt(productId));
-                    prod = new Product(Integer.parseInt(productId), description, productname, Double.parseDouble(price),
+                    prodOrg = prodRepo.findByProductid(Integer.parseInt(productid));
+                    prod = new Product(Integer.parseInt(productid), description, productname, Double.parseDouble(price),
                             Integer.parseInt(quantity), prodOrg.getProductimage());
                 }
                 prodRepo.save(prod);
@@ -130,16 +130,16 @@ public class ProductsController {
         return new ResponseEntity<serverResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{productid}")
     public ResponseEntity<prodResp> delProduct(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
-                                               @PathVariable(name = WebConstants.PROD_ID) String productId) throws IOException {
+                                               @PathVariable(name = WebConstants.PROD_ID) String productid) throws IOException {
         prodResp resp = new prodResp();
-        if (Validator.isStringEmpty(productId)) {
+        if (Validator.isStringEmpty(productid)) {
             resp.setStatus(ResponseCode.BAD_REQUEST_CODE);
             resp.setMessage(ResponseCode.BAD_REQUEST_MESSAGE);
         } else if (!Validator.isStringEmpty(AUTH_TOKEN) && jwtutil.checkToken(AUTH_TOKEN) != null) {
             try {
-                prodRepo.deleteByProductid(Integer.parseInt(productId));
+                prodRepo.deleteByProductid(Integer.parseInt(productid));
                 resp.setStatus(ResponseCode.SUCCESS_CODE);
                 resp.setMessage(ResponseCode.DEL_SUCCESS_MESSAGE);
                 resp.setAUTH_TOKEN(AUTH_TOKEN);

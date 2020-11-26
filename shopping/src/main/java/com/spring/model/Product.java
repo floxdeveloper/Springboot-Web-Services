@@ -16,7 +16,7 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = -7446162716367847201L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productId;
+	private int productid;
 	private String description;
 	private String productname;
 	private double price;
@@ -25,11 +25,11 @@ public class Product implements Serializable {
 	private byte[] productimage;
 
 	public int getProductid() {
-		return productId;
+		return productid;
 	}
 
-	public void setProductid(int productId) {
-		this.productId = productId;
+	public void setProductid(int productid) {
+		this.productid = productid;
 	}
 
 	public String getDescription() {
@@ -76,10 +76,10 @@ public class Product implements Serializable {
 		super();
 	}
 
-	public Product(int productId, String description, String productname, double price, int quantity,
-			byte[] productimage) {
+	public Product(int productid, String description, String productname, double price, int quantity,
+				   byte[] productimage) {
 		super();
-		this.productId = productId;
+		this.productid = productid;
 		this.description = description;
 		this.productname = productname;
 		this.price = price;

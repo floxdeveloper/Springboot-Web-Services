@@ -32,7 +32,7 @@ public class Bufcart implements Serializable {
 	@Override
 	public String toString() {
 		return "Bufcart [bufcartId=" + bufcartId + ", orderId=" + orderId + ", email=" + email + ", dateAdded="
-				+ dateAdded + ", quantity=" + quantity + ", price=" + price + ", productId=" + productId
+				+ dateAdded + ", quantity=" + quantity + ", price=" + price + ", productid=" + productid
 				+ ", productname=" + productname + "]";
 	}
 
@@ -42,7 +42,7 @@ public class Bufcart implements Serializable {
 
 	private int quantity;
 	private double price;
-	private int productId;
+	private int productid;
 
 	private String productname;
 
@@ -55,11 +55,11 @@ public class Bufcart implements Serializable {
 	}
 
 	public int getProductId() {
-		return productId;
+		return productid;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProductId(int productid) {
+		this.productid = productid;
 	}
 
 	public int getBufcartId() {
