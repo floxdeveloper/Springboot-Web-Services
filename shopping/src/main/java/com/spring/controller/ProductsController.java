@@ -96,7 +96,7 @@ public class ProductsController {
             @RequestParam(name = WebConstants.PROD_PRICE) String price,
             @RequestParam(name = WebConstants.PROD_NAME) String productname,
             @RequestParam(name = WebConstants.PROD_QUANITY) String quantity,
-            @PathVariable(name = WebConstants.PROD_ID) String productid) throws IOException {
+            @PathVariable(name = WebConstants.PROD_ID) String productId) throws IOException {
         serverResp resp = new serverResp();
         if (Validator.isStringEmpty(productname) || Validator.isStringEmpty(description)
                 || Validator.isStringEmpty(price) || Validator.isStringEmpty(quantity)) {
@@ -107,11 +107,11 @@ public class ProductsController {
                 Product prodOrg;
                 Product prod;
                 if (prodImage != null) {
-                    prod = new Product(Integer.parseInt(productid), description, productname, Double.parseDouble(price),
+                    prod = new Product(Integer.parseInt(productId), description, productname, Double.parseDouble(price),
                             Integer.parseInt(quantity), prodImage.getBytes());
                 } else {
-                    prodOrg = prodRepo.findByProductid(Integer.parseInt(productid));
-                    prod = new Product(Integer.parseInt(productid), description, productname, Double.parseDouble(price),
+                    prodOrg = prodRepo.findByProductid(Integer.parseInt(productId));
+                    prod = new Product(Integer.parseInt(productId), description, productname, Double.parseDouble(price),
                             Integer.parseInt(quantity), prodOrg.getProductimage());
                 }
                 prodRepo.save(prod);

@@ -10,7 +10,7 @@ import com.spring.model.Product;
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	Product findByProductid(int productid);
+	Product findByProductid(int productId);
 
-	void deleteByProductid(int productid);
+	void deleteByProductid(int productId);
 }
