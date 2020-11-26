@@ -49,7 +49,7 @@ public class ProductsController {
         return new ResponseEntity<prodResp>(resp, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<prodResp> addProduct(@RequestHeader(name = WebConstants.USER_AUTH_TOKEN) String AUTH_TOKEN,
                                                @RequestParam(name = WebConstants.PROD_FILE) MultipartFile prodImage,
                                                @RequestParam(name = WebConstants.PROD_DESC) String description,
